@@ -9,11 +9,12 @@ RUN  apk add --no-cache  \
 
 RUN	sed -i -e 's/^\(LoadModule mpm_prefork_module\)/#\1/g' /etc/apache2/httpd.conf ; \
 	sed -i -e 's/^#\(LoadModule mpm_event_module\)/\1/g' /etc/apache2/httpd.conf ; \
-	echo "LoadModule proxy_module modules/mod_proxy.so" >> /etc/apache2/httpd.conf ; \
-	echo "LoadModule proxy_fcgi_module modules/mod_proxy_fcgi.so" >> /etc/apache2/httpd.conf ; \
+#	echo "LoadModule proxy_module modules/mod_proxy.so" >> /etc/apache2/httpd.conf ; \
+#	echo "LoadModule proxy_fcgi_module modules/mod_proxy_fcgi.so" >> /etc/apache2/httpd.conf ; \
 	echo "DirectoryIndex /index.php index.php" >> /etc/apache2/httpd.conf ; \
-	echo "ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://${FCGI_HOST}/${WEBROOT}/$1" >> /etc/apache2/httpd.conf
-	
+	echo "ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://${FCGI_HOST}/${WEBROOT}/$1" >> /etc/apache2/httpd.conf ; \
+	echo "LoadModule slotmem_shm_module modules/mod_slotmem_shm.so" >> /etc/apache2/conf.d/slotmem_shm.conf && \
+	mkdir -p /run/apache2/
 
 	
 EXPOSE 80
