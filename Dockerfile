@@ -8,7 +8,7 @@ RUN  apk add --no-cache  \
 	apache2-proxy \
 	&& rm -rf /var/cache/apk/*
 
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /bin/entrypoint.sh
 
 RUN	sed -i -e 's/^\(LoadModule mpm_prefork_module\)/#\1/g' /etc/apache2/httpd.conf && \
 	sed -i -e 's/^#\(LoadModule mpm_event_module\)/\1/g' /etc/apache2/httpd.conf && \
@@ -18,7 +18,8 @@ RUN	sed -i -e 's/^\(LoadModule mpm_prefork_module\)/#\1/g' /etc/apache2/httpd.co
 	echo "ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://\${FCGI_HOST}/\${WEBROOT}/\$1" >> /etc/apache2/httpd.conf && \
 	echo "LoadModule slotmem_shm_module modules/mod_slotmem_shm.so" >> /etc/apache2/conf.d/slotmem_shm.conf && \
 	mkdir -p /run/apache2/ && \
-	chmod a+x /entrypoint.sh
+	chmod a+x /bin/entrypoint.sh && \
+	ln -s /bin/entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["httpd"]
