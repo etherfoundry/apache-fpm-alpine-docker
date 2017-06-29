@@ -40,7 +40,7 @@ if [ ! -z "$GET_SRC" ] ; then
 
 	SOURCE_BUCKET=${SOURCE_BUCKET:-"my-test-bucket/src"}
 	SOURCE_ROOT=${SOURCE_ROOT:-/var/www/localhost/htdocs}
-	
+	rm "$ACCESS_KEY_PATH" "$SECRET_KEY_PATH"
 	mc config host a src "$MINIO_HOST" "$ACCESS_KEY" "$SECRET_KEY"
 	rm -rf "$SOURCE_ROOT"
 	if [ ! -z "$SOURCE_FILE" ] ; then
