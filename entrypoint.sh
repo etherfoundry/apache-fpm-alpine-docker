@@ -2,14 +2,24 @@
 
 # The following environment variables are relevant:
 # - ALLOW_PLAY=0|1	: Allow the Minio Play server to be registered by default
+# - MINIO_HOST		: Minio endpoint to connect to
 # - SOURCE_BUCKET	: Minio bucket/path containing the source code
 # - SOURCE_FILE=""	: OPTIONAL - if specified, instead of performing a recursive copy of the bucket contents,
 #                                this file will be downloaded and then extracted into the target path
 # - SOURCE_ROOT=	: Path to place the contents of the bucket
 # TODO: move this into its own subcontainer to not contaminate our apache image...
+
+#set -x
+
 if [ ! -z "$GET_SRC" ] ; then
     ALLOW_PLAY=${ALLOW_PLAY:-0}
-	MINIO_HOST=${MINIO_HOST:-"https://play.minio.io:9000/"}
+	if [ "$ALLOW_PLAY" != "0"] ; then
+		MINIO_HOST=${MINIO_HOST:-"https://play.minio.io:9000/"}
+	elif [ -z "$MINIO_HOST" ] ; then
+      echo "MINIO_HOST not specified. Fatal Error."
+      exit 10
+	fi
+		
 
 	SECRET_PATH=/run/secrets
 	ACCESS_KEY_PATH="$SECRET_PATH/access_key"
