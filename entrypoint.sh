@@ -13,7 +13,7 @@
 
 if [ ! -z "$GET_SRC" ] ; then
     ALLOW_PLAY=${ALLOW_PLAY:-0}
-	if [ "$ALLOW_PLAY" != "0"] ; then
+	if [ "$ALLOW_PLAY" != "0" ] ; then
 		MINIO_HOST=${MINIO_HOST:-"https://play.minio.io:9000/"}
 	elif [ -z "$MINIO_HOST" ] ; then
       echo "MINIO_HOST not specified. Fatal Error."
