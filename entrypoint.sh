@@ -43,6 +43,7 @@ if [ ! -z "$GET_SRC" ] ; then
 	rm "$ACCESS_KEY_PATH" "$SECRET_KEY_PATH"
 	mc config host a src "$MINIO_HOST" "$ACCESS_KEY" "$SECRET_KEY"
 	rm -rf "$SOURCE_ROOT"
+	mkdir -p "$SOURCE_ROOT"
 	if [ ! -z "$SOURCE_FILE" ] ; then
 	    SRCTMP=$( tempfile )
 		mc cp "src/$SOURCE_BUCKET/$SOURCE_FILE" /tmp/
